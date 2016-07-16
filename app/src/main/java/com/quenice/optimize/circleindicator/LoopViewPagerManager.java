@@ -11,5 +11,6 @@ public class LoopViewPagerManager {
 
 	public void setViewPager(ViewPager viewPager) {
 		this.mViewPager = viewPager;
+
 	}
 }
