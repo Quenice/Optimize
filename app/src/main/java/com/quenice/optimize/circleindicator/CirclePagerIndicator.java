@@ -131,7 +131,8 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 	 * @param position
 	 */
 	public void setCurrentItem(int position) {
-		mViewPager.setCurrentItem(position);
+		if (mCount <= 0) return;
+		mViewPager.setCurrentItem(position % mCount);
 		mCurrentPage = position;
 		invalidate();
 	}
@@ -141,11 +142,11 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 		mCurrentPage = position;
 		mPositionOffset = positionOffset;
 		//最右边之后，再往右滑动，不重绘
-		if(position == mCount - 1 && !mViewPager.canScrollHorizontally(1)) {
+		if (position == mCount - 1 && !mViewPager.canScrollHorizontally(1)) {
 			return;
 		}
 		//最左边之后，再往左滑动，不重绘
-		if(position == 0 && !mViewPager.canScrollHorizontally(-1)) {
+		if (position == 0 && !mViewPager.canScrollHorizontally(-1)) {
 			return;
 		}
 		invalidate();
