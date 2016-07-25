@@ -13,6 +13,7 @@ import com.quenice.optimize.official.recyclerview.RecyclerViewActivity;
 import com.quenice.optimize.pickerview.PickerViewActivity;
 import com.quenice.optimize.production.cityselect.CitySelectActivity;
 import com.quenice.optimize.seekbar.SeekBarActivity;
+import com.quenice.optimize.swipeview.SwipeViewActivity;
 import com.quenice.optimize.tab.TabDemoActivity;
 
 /**
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private View tv_tab;
 	private View tv_circleindicator;
 	private View tv_seekbar;
+	private View tv_swipeview;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		tv_tab = findViewById(R.id.tv_tab);
 		tv_seekbar = findViewById(R.id.tv_seekbar);
 		tv_circleindicator = findViewById(R.id.tv_circleindicator);
+		tv_swipeview = findViewById(R.id.tv_swipeview);
 
 		tv_floatingactionbutton.setOnClickListener(this);
 		tv_cityselect.setOnClickListener(this);
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		tv_tab.setOnClickListener(this);
 		tv_seekbar.setOnClickListener(this);
 		tv_circleindicator.setOnClickListener(this);
+		tv_swipeview.setOnClickListener(this);
 	}
 
 	@Override
@@ -84,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				break;
 			case R.id.tv_circleindicator:
 				startActivity(new Intent(this, CircleIndicatorActivity.class));
+				break;
+			case R.id.tv_swipeview:
+				startActivity(new Intent(this, SwipeViewActivity.class));
 				break;
 		}
 	}
