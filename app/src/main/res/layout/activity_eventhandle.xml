@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.quenice.optimize.eventhandle.MyLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_dark"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.quenice.optimize.eventhandle.MyRelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@android:color/holo_green_dark">
+
+        <com.quenice.optimize.eventhandle.MyTextView
+            android:id="@+id/tv"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:background="@android:color/white"
+            android:text="Click"/>
+    </com.quenice.optimize.eventhandle.MyRelativeLayout>
+
+</com.quenice.optimize.eventhandle.MyLinearLayout>

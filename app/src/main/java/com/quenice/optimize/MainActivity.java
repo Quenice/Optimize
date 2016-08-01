@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.quenice.optimize.circleindicator.CircleIndicatorActivity;
+import com.quenice.optimize.eventhandle.EventHandleActivity;
+import com.quenice.optimize.horizontalview.HorizontalViewActivity;
 import com.quenice.optimize.listview.demo.RefreshLoadActivity;
 import com.quenice.optimize.official.coordinatorlayout.BottomSheetBehaviorActivity;
 import com.quenice.optimize.official.coordinatorlayout.FloatingActionButtonActivity;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private View tv_circleindicator;
 	private View tv_seekbar;
 	private View tv_swipeview;
+	private View tv_horizontalview;
+	private View tv_eventhandle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		tv_seekbar = findViewById(R.id.tv_seekbar);
 		tv_circleindicator = findViewById(R.id.tv_circleindicator);
 		tv_swipeview = findViewById(R.id.tv_swipeview);
+		tv_horizontalview = findViewById(R.id.tv_horizontalview);
+		tv_eventhandle = findViewById(R.id.tv_eventhandle);
 
 		tv_floatingactionbutton.setOnClickListener(this);
 		tv_cityselect.setOnClickListener(this);
@@ -57,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		tv_seekbar.setOnClickListener(this);
 		tv_circleindicator.setOnClickListener(this);
 		tv_swipeview.setOnClickListener(this);
+		tv_horizontalview.setOnClickListener(this);
+		tv_eventhandle.setOnClickListener(this);
 	}
 
 	@Override
@@ -91,6 +99,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				break;
 			case R.id.tv_swipeview:
 				startActivity(new Intent(this, SwipeViewActivity.class));
+				break;
+			case R.id.tv_horizontalview:
+				startActivity(new Intent(this, HorizontalViewActivity.class));
+				break;
+			case R.id.tv_eventhandle:
+				startActivity(new Intent(this, EventHandleActivity.class));
 				break;
 		}
 	}
