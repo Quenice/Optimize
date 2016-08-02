@@ -1,19 +1,25 @@
 package com.quenice.optimize.swipeview;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewConfiguration;
 
 /**
+ * 横向滑动item辅助类
  * Created by qiubb on 2016/8/1.
  */
-public class ItemSwipeHelper implements RecyclerView.OnItemTouchListener {
+public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 	public final static int SLIDE_STATUS_OFF = 0x01;
 	public final static int SLIDE_STATUS_START_SCROLL = 0x02;
 	public final static int SLIDE_STATUS_ON = 0x03;
-	private final static int TAN = 6;
+	/**
+	 * 正切，COT = 移动的x / 移动的y，根据这个值来调整滑动角度尽量接近左右横向滑动，COT值越大，滑动必须越接近横向滑动
+	 */
+	private final static int COT = 6;
 	private int mStatus;
 	private RecyclerView mRecyclerView;
 	private Context mContext;
@@ -44,8 +50,9 @@ public class ItemSwipeHelper implements RecyclerView.OnItemTouchListener {
 		switch (action) {
 			case MotionEvent.ACTION_DOWN:
 				if (mStatus == SLIDE_STATUS_ON && mCurrentSwipeView != null) {
+					//如果点击的是操作区域，则不能intercept，需要把事件传递给操作区域的View
+					isintercept = !isHintInActionArea(recyclerView, mCurrentSwipeView, x, y);
 					mCurrentSwipeView.getContentView().scrollTo(0, 0);
-					isintercept = true;
 					mStatus = SLIDE_STATUS_OFF;
 					mCurrentSwipeView = null;
 					break;
@@ -59,7 +66,7 @@ public class ItemSwipeHelper implements RecyclerView.OnItemTouchListener {
 					mStatus = SLIDE_STATUS_START_SCROLL;
 				}
 				//Y滑动 && 滑动角度在可接受范围内
-				if (Math.abs(deltaY) > 0 && Math.abs(deltaX) > Math.abs(deltaY) * TAN) {
+				if (Math.abs(deltaY) > 0 && Math.abs(deltaX) > Math.abs(deltaY) * COT) {
 					mStatus = SLIDE_STATUS_START_SCROLL;
 
 				}
@@ -76,10 +83,6 @@ public class ItemSwipeHelper implements RecyclerView.OnItemTouchListener {
 		return isintercept;
 	}
 
-	public SwipeView getActiveSwipeView(RecyclerView recyclerView, float x, float y) {
-		return (SwipeView) recyclerView.findChildViewUnder(x, y);
-	}
-
 	@Override
 	public void onTouchEvent(RecyclerView recyclerView, MotionEvent e) {
 		if (mActiveSwipeView == null) return;
@@ -87,7 +90,7 @@ public class ItemSwipeHelper implements RecyclerView.OnItemTouchListener {
 		float x = e.getX();
 		float y = e.getY();
 		int scrollX = mActiveSwipeView.getContentView().getScrollX();
-		int swipeViewRightWidth = mActiveSwipeView.getRightView().getWidth();
+		int swipeViewRightWidth = mActiveSwipeView.getRightActionView().getWidth();
 		int newScrollX;
 		switch (action) {
 			case MotionEvent.ACTION_DOWN:
@@ -123,12 +126,34 @@ public class ItemSwipeHelper implements RecyclerView.OnItemTouchListener {
 		mTouchY = y;
 	}
 
-	@Override
-	public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
+	/**
+	 * 根据x、y坐标获得对应item
+	 * @param recyclerView
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public SwipeView getActiveSwipeView(RecyclerView recyclerView, float x, float y) {
+		return (SwipeView) recyclerView.findChildViewUnder(x, y);
 	}
 
-	private boolean isClickInOperationArea(RecyclerView recyclerView, float x, float y) {
-
+	/**
+	 * 是否在点击在操作区
+	 * @param recyclerView
+	 * @param swipeView
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	private boolean isHintInActionArea(RecyclerView recyclerView, SwipeView swipeView, float x, float y) {
+		View rightView;
+		if (recyclerView == null || swipeView == null || (rightView = swipeView.getRightActionView()) == null)
+			return false;
+		Rect rect = new Rect();
+		rightView.getHitRect(rect);
+		//源x、y是针对RecyclerView的坐标，需要转成相对于SwipeView的坐标
+		int realX = (int) x - swipeView.getLeft();
+		int realY = (int) y - swipeView.getTop();
+		return rect.contains(realX, realY);
 	}
 }
