@@ -17,6 +17,14 @@ import android.widget.RelativeLayout;
  */
 public class SwipeView extends RelativeLayout {
 	/**
+	 * 内容区域的view必须设置的tag
+	 */
+	private final static String TAG_CONTENT = "CONTENT";
+	/**
+	 * 右边操作区必须设置的tag
+	 */
+	private final static String TAG_RIGHT_ACTION = "RIGHT_ACTION";
+	/**
 	 * 内容区域View
 	 */
 	private View mContentView;
@@ -63,8 +71,8 @@ public class SwipeView extends RelativeLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		mRightActionView = getChildAt(0);
-		mContentView = getChildAt(1);
+		mRightActionView = findViewWithTag(TAG_RIGHT_ACTION);
+		mContentView = findViewWithTag(TAG_CONTENT);
 	}
 
 	public View getContentView() {
@@ -77,6 +85,7 @@ public class SwipeView extends RelativeLayout {
 
 	/**
 	 * 横向平缓滑动
+	 *
 	 * @param x destination x
 	 */
 	public void smoothScroll(int x) {

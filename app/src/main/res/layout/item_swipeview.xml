@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorAccent"
         android:gravity="center"
+        android:tag="RIGHT_ACTION"
         android:text="删除"
         android:textColor="@android:color/white"/>
 
@@ -19,7 +20,8 @@
         android:id="@+id/v_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:tag="CONTENT">
 
         <TextView
             android:id="@+id/tv_value"
