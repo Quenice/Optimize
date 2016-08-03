@@ -46,7 +46,7 @@ public class SwipeViewRecyclerViewAdapter extends RecyclerView.Adapter<SwipeView
 	@Override
 	public void onAttachedToRecyclerView(RecyclerView recyclerView) {
 		super.onAttachedToRecyclerView(recyclerView);
-		recyclerView.addOnItemTouchListener(new ItemSwipeHelper(recyclerView, mContext));
+		recyclerView.addOnItemTouchListener(new ItemSwipeHelper(mContext));
 	}
 
 	static class MyViewHolder extends RecyclerView.ViewHolder {

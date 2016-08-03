@@ -1,12 +1,15 @@
 package com.quenice.optimize.swipeview;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Scroller;
 
 /**
  * 滑动显示菜单view
@@ -22,31 +25,27 @@ public class SwipeView extends RelativeLayout {
 	 */
 	private View mRightActionView;
 
-	private Scroller mScroller;
+	private Animator mAnimator;
+	/**
+	 * 动画执行最长时间（ms）
+	 */
+	private final static long ANIMATOR_DURATION = 200;
 
 	public SwipeView(Context context) {
 		super(context);
-		init(context);
 	}
 
 	public SwipeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init(context);
 	}
 
 	public SwipeView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		init(context);
 	}
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 	public SwipeView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
-		init(context);
-	}
-
-	private void init(Context context) {
-		mScroller = new Scroller(context);
 	}
 
 	@Override
@@ -74,5 +73,68 @@ public class SwipeView extends RelativeLayout {
 
 	public View getRightActionView() {
 		return mRightActionView;
+	}
+
+	/**
+	 * 横向平缓滑动
+	 * @param x destination x
+	 */
+	public void smoothScroll(int x) {
+		if (mContentView == null) return;
+
+		//如果有动画还未结束，那么迅速结束。注意这边不能调用cancel()而要调用end()，因为调用end()会使scrollX值直接assign到指定的x
+		if (mAnimator != null) {
+			mAnimator.removeAllListeners();
+			mAnimator.end();
+		}
+
+		long duration = ANIMATOR_DURATION;
+		if (x > 0) {
+			duration = duration * x / mRightActionView.getWidth();
+		}
+		mAnimator = ObjectAnimator.ofInt(mContentView, "scrollX", x);
+		mAnimator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				super.onAnimationEnd(animation);
+				mAnimator = null;
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+				super.onAnimationCancel(animation);
+				mAnimator = null;
+			}
+		});
+		mAnimator.setDuration(duration);
+		mAnimator.start();
+	}
+
+	/**
+	 * 手动横向滑动
+	 *
+	 * @param x destination x
+	 */
+	public void manuallyScrollX(int x) {
+		if (mContentView == null) return;
+		mContentView.scrollTo(x, 0);
+	}
+
+	/**
+	 * 是否在点击在操作区
+	 *
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public boolean isHintInActionArea(float x, float y) {
+		if (mRightActionView == null)
+			return false;
+		Rect rect = new Rect();
+		mRightActionView.getHitRect(rect);
+		//源x、y是针对RecyclerView的坐标，需要转成相对于SwipeView的坐标
+		int realX = (int) x - getLeft();
+		int realY = (int) y - getTop();
+		return rect.contains(realX, realY);
 	}
 }
