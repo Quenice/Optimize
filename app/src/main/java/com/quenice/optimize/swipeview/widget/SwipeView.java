@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -89,6 +90,16 @@ public class SwipeView extends RelativeLayout {
 	 * @param x destination x
 	 */
 	public void smoothScroll(int x) {
+		smoothScroll(x, null);
+	}
+
+	/**
+	 * 横向平缓滑动
+	 *
+	 * @param x
+	 * @param callback
+	 */
+	public void smoothScroll(int x, final ItemSwipeHelper.SwipeCallback callback) {
 		if (mContentView == null) return;
 
 		//如果有动画还未结束，那么迅速结束。注意这边不能调用cancel()而要调用end()，因为调用end()会使scrollX值直接assign到指定的x
@@ -107,16 +118,22 @@ public class SwipeView extends RelativeLayout {
 			public void onAnimationEnd(Animator animation) {
 				super.onAnimationEnd(animation);
 				mAnimator = null;
+				if (callback != null)
+					callback.onFinish();
 			}
 
 			@Override
 			public void onAnimationCancel(Animator animation) {
 				super.onAnimationCancel(animation);
 				mAnimator = null;
+				if (callback != null)
+					callback.onFinish();
 			}
 		});
+		Log.e("SwipeView", "duration = " + duration);
 		mAnimator.setDuration(duration);
 		mAnimator.start();
+
 	}
 
 	/**

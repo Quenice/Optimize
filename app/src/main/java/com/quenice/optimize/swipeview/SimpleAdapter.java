@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.quenice.optimize.R;
 import com.quenice.optimize.swipeview.widget.ItemSwipeHelper;
-import com.quenice.optimize.swipeview.widget.SwipeView;
 import com.quenice.optimize.swipeview.widget.SwipeViewAdapter;
 
 import java.util.ArrayList;
@@ -30,15 +29,15 @@ public class SimpleAdapter extends SwipeViewAdapter<SimpleAdapter.MyViewHolder> 
 		this.mData = data;
 		if (mData == null) mData = new ArrayList<>();
 		mLayoutInflater = LayoutInflater.from(context);
-		mTouchInterceptor = new ItemSwipeHelper.TouchInterceptor() {
-			@Override
-			public boolean dispatch(RecyclerView recyclerView, SwipeView swipeView) {
-				if (recyclerView == null || swipeView == null) return false;
-				RecyclerView.ViewHolder viewHolder = recyclerView.findContainingViewHolder(swipeView);
-				if (viewHolder == null) return false;
-				return ((MyViewHolder) viewHolder).tv_value.getText().toString().equals("6");
-			}
-		};
+//		mTouchInterceptor = new ItemSwipeHelper.TouchInterceptor() {
+//			@Override
+//			public boolean dispatch(RecyclerView recyclerView, SwipeView swipeView) {
+//				if (recyclerView == null || swipeView == null) return false;
+//				RecyclerView.ViewHolder viewHolder = recyclerView.findContainingViewHolder(swipeView);
+//				if (viewHolder == null) return false;
+//				return ((MyViewHolder) viewHolder).tv_value.getText().toString().equals("6");
+//			}
+//		};
 	}
 
 	@Override
