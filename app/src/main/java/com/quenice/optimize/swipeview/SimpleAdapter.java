@@ -67,6 +67,10 @@ public class SimpleAdapter extends SwipeViewAdapter<SimpleAdapter.MyViewHolder> 
 			super(itemView);
 			tv_value = (TextView) itemView.findViewById(R.id.tv_value);
 			tv_delete = (TextView) itemView.findViewById(R.id.tv_delete);
+		}
+
+		void bind(String d) {
+			tv_value.setText(d);
 			tv_value.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -79,10 +83,6 @@ public class SimpleAdapter extends SwipeViewAdapter<SimpleAdapter.MyViewHolder> 
 					Log.e("Adapter", "tv_delete.onClick");
 				}
 			});
-		}
-
-		void bind(String d) {
-			tv_value.setText(d);
 		}
 	}
 }

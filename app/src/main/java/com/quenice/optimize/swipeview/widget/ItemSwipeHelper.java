@@ -39,6 +39,7 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 	private int mStatus = SLIDE_STATUS_OFF;
 	private int mTouchSlop;
 	private float mInterceptLastX, mInterceptLastY, mTouchX, mTouchY;
+	private boolean needResponseAction;
 	/**
 	 * 最后操作的item
 	 */
@@ -47,6 +48,9 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 	 * 当前正在操作的item
 	 */
 	private SwipeView mActiveSwipeView;
+	/**
+	 * 有一些item可能不需要响应左右滑动事件，所以通过注册滑动拦截器来过滤
+	 */
 	private TouchInterceptor mTouchInterceptor;
 
 	public ItemSwipeHelper(Context context) {
@@ -55,6 +59,12 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 
 	@Override
 	public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent e) {
+		Log.e("onTouchEvent", "3");
+		//TO-DO 这个需要改进
+		if(needResponseAction) {
+			needResponseAction = false;
+			return super.onInterceptTouchEvent(recyclerView, e);
+		}
 		if (mStatus == SLIDE_STATUS_SCROLL_AUTO_OFF || mStatus == SLIDE_STATUS_SCROLL_AUTO_ON) {
 			return true;
 		}
@@ -72,6 +82,7 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 				if (mStatus == SLIDE_STATUS_ON && mLatestSwipeView != null) {
 					//如果点击的是操作区域，则不能intercept，需要把事件传递给操作区域的View
 					isintercept = !mLatestSwipeView.isHintInActionArea(x, y);
+					if(!isintercept) needResponseAction = true;
 					mStatus = SLIDE_STATUS_SCROLL_AUTO_OFF;
 					mLatestSwipeView.smoothScroll(0, new SwipeCallback() {
 						@Override
@@ -80,7 +91,6 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 							mLatestSwipeView = null;
 						}
 					});
-					break;
 				}
 				break;
 			case MotionEvent.ACTION_MOVE:
@@ -105,11 +115,13 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 
 		mInterceptLastX = x;
 		mInterceptLastY = y;
+		Log.e("Helper", "isIntercept=" + isintercept);
 		return isintercept;
 	}
 
 	@Override
 	public void onTouchEvent(RecyclerView recyclerView, MotionEvent e) {
+		Log.e("onTouchEvent", "2");
 		if (mActiveSwipeView == null) return;
 		if (mTouchInterceptor != null && mTouchInterceptor.dispatch(recyclerView, mActiveSwipeView))
 			return;
