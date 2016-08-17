@@ -9,23 +9,36 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.quenice.optimize.R;
+import com.quenice.optimize.swipeview.widget.ItemSwipeHelper;
+import com.quenice.optimize.swipeview.widget.SwipeView;
+import com.quenice.optimize.swipeview.widget.SwipeViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by qiubb on 2016/7/28.
+ * Created by qiubb on 2016/8/3.
  */
-public class SwipeViewRecyclerViewAdapter extends RecyclerView.Adapter<SwipeViewRecyclerViewAdapter.MyViewHolder> {
+public class SimpleAdapter extends SwipeViewAdapter<SimpleAdapter.MyViewHolder> {
 	private Context mContext;
 	private List<String> mData;
 	private LayoutInflater mLayoutInflater;
+	private ItemSwipeHelper.TouchInterceptor mTouchInterceptor;
 
-	public SwipeViewRecyclerViewAdapter(Context context, List<String> data) {
+	public SimpleAdapter(Context context, List<String> data) {
 		this.mContext = context;
 		this.mData = data;
 		if (mData == null) mData = new ArrayList<>();
 		mLayoutInflater = LayoutInflater.from(context);
+		mTouchInterceptor = new ItemSwipeHelper.TouchInterceptor() {
+			@Override
+			public boolean dispatch(RecyclerView recyclerView, SwipeView swipeView) {
+				if (recyclerView == null || swipeView == null) return false;
+				RecyclerView.ViewHolder viewHolder = recyclerView.findContainingViewHolder(swipeView);
+				if (viewHolder == null) return false;
+				return ((MyViewHolder) viewHolder).tv_value.getText().toString().equals("6");
+			}
+		};
 	}
 
 	@Override
@@ -44,9 +57,8 @@ public class SwipeViewRecyclerViewAdapter extends RecyclerView.Adapter<SwipeView
 	}
 
 	@Override
-	public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-		super.onAttachedToRecyclerView(recyclerView);
-		recyclerView.addOnItemTouchListener(new ItemSwipeHelper(mContext));
+	public ItemSwipeHelper.TouchInterceptor getTouchInterceptor() {
+		return mTouchInterceptor;
 	}
 
 	static class MyViewHolder extends RecyclerView.ViewHolder {

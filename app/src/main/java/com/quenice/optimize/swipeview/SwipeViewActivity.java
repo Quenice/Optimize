@@ -28,6 +28,6 @@ public class SwipeViewActivity extends Activity {
 		}
 		recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
-		recyclerView.setAdapter(new SwipeViewRecyclerViewAdapter(this, data));
+		recyclerView.setAdapter(new SimpleAdapter(this, data));
 	}
 }

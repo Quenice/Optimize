@@ -1,4 +1,4 @@
-package com.quenice.optimize.swipeview;
+package com.quenice.optimize.swipeview.widget;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
