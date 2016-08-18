@@ -39,6 +39,11 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 	private int mStatus = SLIDE_STATUS_OFF;
 	private int mTouchSlop;
 	private float mInterceptLastX, mInterceptLastY, mTouchX, mTouchY;
+	/**
+	 * touch事件down的x坐标
+	 */
+	private float mDownX;
+	//是否需要响应action区域事件
 	private boolean needResponseAction;
 	/**
 	 * 最后操作的item
@@ -59,9 +64,8 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 
 	@Override
 	public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent e) {
-		Log.e("onTouchEvent", "3");
-		//TO-DO 这个需要改进
-		if(needResponseAction) {
+		//当touch区域为action区域的时候，需要响应action区域事件
+		if (mStatus == SLIDE_STATUS_SCROLL_AUTO_OFF && needResponseAction) {
 			needResponseAction = false;
 			return super.onInterceptTouchEvent(recyclerView, e);
 		}
@@ -79,21 +83,28 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 		boolean isintercept = false;
 		switch (action) {
 			case MotionEvent.ACTION_DOWN:
+				mDownX = x;
 				if (mStatus == SLIDE_STATUS_ON && mLatestSwipeView != null) {
 					//如果点击的是操作区域，则不能intercept，需要把事件传递给操作区域的View
 					isintercept = !mLatestSwipeView.isHintInActionArea(x, y);
-					if(!isintercept) needResponseAction = true;
+					if (!isintercept) needResponseAction = true;
+					Log.e("ItemSwipeHelper", "needResponseAction=" + needResponseAction);
 					mStatus = SLIDE_STATUS_SCROLL_AUTO_OFF;
 					mLatestSwipeView.smoothScroll(0, new SwipeCallback() {
 						@Override
 						public void onFinish() {
 							mStatus = SLIDE_STATUS_OFF;
+							needResponseAction = false;
 							mLatestSwipeView = null;
 						}
 					});
 				}
 				break;
 			case MotionEvent.ACTION_MOVE:
+				//如果是反向滑动，不作处理，直接传递事件
+				if (mDownX != -1 && (x - mDownX) > 0) {
+					return super.onInterceptTouchEvent(recyclerView, e);
+				}
 				int deltaX = (int) (x - mInterceptLastX);
 				int deltaY = (int) (y - mInterceptLastY);
 				//Y未滑动 && X滑动距离大于标准touchslop
@@ -110,18 +121,17 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 				}
 				break;
 			case MotionEvent.ACTION_UP:
+				mDownX = -1;
 				break;
 		}
 
 		mInterceptLastX = x;
 		mInterceptLastY = y;
-		Log.e("Helper", "isIntercept=" + isintercept);
 		return isintercept;
 	}
 
 	@Override
 	public void onTouchEvent(RecyclerView recyclerView, MotionEvent e) {
-		Log.e("onTouchEvent", "2");
 		if (mActiveSwipeView == null) return;
 		if (mTouchInterceptor != null && mTouchInterceptor.dispatch(recyclerView, mActiveSwipeView))
 			return;
@@ -145,7 +155,6 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 			return;
 		}
 
-		Log.e("onTouchEvent", "5=" + mStatus);
 		int action = MotionEventCompat.getActionMasked(e);
 		float x = e.getX();
 		float y = e.getY();
