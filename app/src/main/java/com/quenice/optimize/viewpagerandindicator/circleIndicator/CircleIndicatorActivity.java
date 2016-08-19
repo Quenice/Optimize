@@ -1,4 +1,4 @@
-package com.quenice.optimize.circleindicator;
+package com.quenice.optimize.viewpagerandindicator.circleIndicator;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +15,12 @@ import android.widget.TextView;
 
 import com.quenice.optimize.R;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * Created by qiubb on 2016/7/14.
  */
 public class CircleIndicatorActivity extends AppCompatActivity {
 	private ViewPager mViewPager;
 	private CirclePagerIndicator mIndicator;
-
-	private TimerTask mTimerTask;
-	private Timer mTimer;
-	private int index;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,23 +30,8 @@ public class CircleIndicatorActivity extends AppCompatActivity {
 		mViewPager = (ViewPager) findViewById(R.id.viewPager);
 		mIndicator = (CirclePagerIndicator) findViewById(R.id.indicator);
 		mViewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
+		mIndicator.setSmoothly(true);
 		mIndicator.setupWithViewPager(mViewPager);
-
-
-		mTimerTask = new TimerTask() {
-			@Override
-			public void run() {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						mIndicator.setCurrentItem(index++);
-					}
-				});
-			}
-		};
-		mTimer = new Timer();
-		mTimer.schedule(mTimerTask, 2000, 2000);
-
 	}
 
 	static class MyAdapter extends FragmentPagerAdapter {
@@ -67,7 +46,19 @@ public class CircleIndicatorActivity extends AppCompatActivity {
 
 		@Override
 		public int getCount() {
-			return 3;
+			return 5;
+		}
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			super.destroyItem(container, position, object);
+			Log.e("destroyItem", "position=" + position);
+		}
+
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			Log.e("instantiateItem", "position=" + position);
+			return super.instantiateItem(container, position);
 		}
 	}
 

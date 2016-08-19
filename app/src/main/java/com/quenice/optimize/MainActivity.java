@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.quenice.optimize.circleindicator.CircleIndicatorActivity;
 import com.quenice.optimize.eventhandle.EventHandleActivity;
 import com.quenice.optimize.horizontalview.HorizontalViewActivity;
 import com.quenice.optimize.listview.demo.RefreshLoadActivity;
@@ -17,6 +16,7 @@ import com.quenice.optimize.production.cityselect.CitySelectActivity;
 import com.quenice.optimize.seekbar.SeekBarActivity;
 import com.quenice.optimize.swipeview.SwipeViewActivity;
 import com.quenice.optimize.tab.TabDemoActivity;
+import com.quenice.optimize.viewpagerandindicator.ViewPagerAndIndicatorActivity;
 
 /**
  *
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private View tv_pickerview;
 	private View tv_listview;
 	private View tv_tab;
-	private View tv_circleindicator;
+	private View tv_viewpager_indicator;
 	private View tv_seekbar;
 	private View tv_swipeview;
 	private View tv_horizontalview;
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		tv_listview = findViewById(R.id.tv_listview);
 		tv_tab = findViewById(R.id.tv_tab);
 		tv_seekbar = findViewById(R.id.tv_seekbar);
-		tv_circleindicator = findViewById(R.id.tv_circleindicator);
+		tv_viewpager_indicator = findViewById(R.id.tv_viewpager_indicator);
 		tv_swipeview = findViewById(R.id.tv_swipeview);
 		tv_horizontalview = findViewById(R.id.tv_horizontalview);
 		tv_eventhandle = findViewById(R.id.tv_eventhandle);
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		tv_listview.setOnClickListener(this);
 		tv_tab.setOnClickListener(this);
 		tv_seekbar.setOnClickListener(this);
-		tv_circleindicator.setOnClickListener(this);
+		tv_viewpager_indicator.setOnClickListener(this);
 		tv_swipeview.setOnClickListener(this);
 		tv_horizontalview.setOnClickListener(this);
 		tv_eventhandle.setOnClickListener(this);
@@ -94,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			case R.id.tv_seekbar:
 				startActivity(new Intent(this, SeekBarActivity.class));
 				break;
-			case R.id.tv_circleindicator:
-				startActivity(new Intent(this, CircleIndicatorActivity.class));
+			case R.id.tv_viewpager_indicator:
+				startActivity(new Intent(this, ViewPagerAndIndicatorActivity.class));
 				break;
 			case R.id.tv_swipeview:
 				startActivity(new Intent(this, SwipeViewActivity.class));

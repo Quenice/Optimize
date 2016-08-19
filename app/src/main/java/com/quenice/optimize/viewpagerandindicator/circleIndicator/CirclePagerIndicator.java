@@ -1,4 +1,4 @@
-package com.quenice.optimize.circleindicator;
+package com.quenice.optimize.viewpagerandindicator.circleIndicator;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -39,6 +39,8 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 	//圆paint
 	private Paint mPointPaint;
 	private int mTimes;
+	//是否需要显示平滑滑动过程
+	private boolean smoothly = true;
 
 	public CirclePagerIndicator(Context context) {
 		this(context, null);
@@ -54,9 +56,9 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 	}
 
 	private void init(Context context, AttributeSet attrs) {
-		mRadius = dp2px(5);
+		mRadius = dp2px(6);
 		mInterval = dp2px(10);
-		mCircleStorkWidth = dp2px(1);
+		mCircleStorkWidth = dp2px(4);
 		mCirclePaint = new Paint();
 		mCirclePaint.setAntiAlias(true);
 		mCirclePaint.setStyle(Paint.Style.STROKE);
@@ -76,7 +78,6 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		Log.e(TAG, canvas.toString());
 		if (mViewPager == null || mCount <= 0) return;
 
 		if (mCurrentPage >= mCount) {
@@ -89,7 +90,6 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 			return;
 		}
 
-		Log.e(TAG, "times=" + ++mTimes);
 		int totalCircleWidth = mInterval * (mCount - 1) + mRadius * 2 * mCount;
 		float left = (mWidth - totalCircleWidth) / 2.0f;
 		float cx;
@@ -102,7 +102,7 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 
 		cx = left + (2 * mCurrentPage + 1) * mRadius + mCurrentPage * mInterval;
 		cx += mPositionOffset * (2 * mRadius + mInterval);
-		canvas.drawCircle(cx, cy, mRadius, mPointPaint);
+		canvas.drawCircle(cx, cy, mRadius - mCircleStorkWidth / 2, mPointPaint);
 	}
 
 	@Override
@@ -149,20 +149,19 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 		if (position == 0 && !mViewPager.canScrollHorizontally(-1)) {
 			return;
 		}
-		invalidate();
+		Log.e("onPageScrolled", "position=" + position + ",mPositionOffset=" + mPositionOffset);
+		if (smoothly || mPositionOffset - 0.01f <= 0.0f || mPositionOffset + 0.01 >= 1.0f)
+			invalidate();
 	}
 
 	@Override
 	public void onPageSelected(int position) {
-		//滑动稳定下来之后再绘制
-		if (mState != ViewPager.SCROLL_STATE_IDLE) return;
-		mCurrentPage = position;
-		mPositionOffset = 1.0f;
-		invalidate();
+//		Log.e("onPageSelected", "position=" + position + ", mState=" + mState + ", mPositionOffset=" + mPositionOffset);
 	}
 
 	@Override
 	public void onPageScrollStateChanged(int state) {
+//		Log.e("StateChanged", "state=" + state + "mState=" + mState + ", mPositionOffset=" + mPositionOffset);
 		mState = state;
 		String stateStr = "other";
 		switch (state) {
@@ -171,12 +170,23 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 				break;
 			case ViewPager.SCROLL_STATE_IDLE:
 				stateStr = "IDLE";
+//				Log.e("StateChanged", "position=" + mCurrentPage + ",mState=" + stateStr + ", mPositionOffset=" + mPositionOffset);
 				break;
 			case ViewPager.SCROLL_STATE_SETTLING:
+//				Log.e("StateChanged", "position=" + mCurrentPage + ",mState=" + stateStr + ", mPositionOffset=" + mPositionOffset);
 				stateStr = "SETTLING";
 				break;
 		}
-		Log.e(TAG, "state = " + stateStr);
+//		Log.e(TAG, "state = " + stateStr);
 
+	}
+
+	/**
+	 * 设置是否需要显示平滑滑动过程
+	 *
+	 * @param smoothly
+	 */
+	public void setSmoothly(boolean smoothly) {
+		this.smoothly = smoothly;
 	}
 }

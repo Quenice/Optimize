@@ -42,9 +42,6 @@
             android:name=".seekbar.SeekBarActivity"
             android:theme="@style/NoActionBar"/>
         <activity
-            android:name=".circleindicator.CircleIndicatorActivity"
-            android:theme="@style/NoActionBar"/>
-        <activity
             android:name=".swipeview.SwipeViewActivity"
             android:theme="@style/NoActionBar"/>
         <activity
@@ -52,6 +49,15 @@
             android:theme="@style/NoActionBar"/>
         <activity
             android:name=".eventhandle.EventHandleActivity"
+            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".viewpagerandindicator.ViewPagerAndIndicatorActivity"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".viewpagerandindicator.loopviewpager.LoopViewPagerActivity"
+            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".viewpagerandindicator.circleIndicator.CircleIndicatorActivity"
             android:theme="@style/NoActionBar"/>
     </application>
 

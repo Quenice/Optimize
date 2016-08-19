@@ -2,6 +2,8 @@ package com.quenice.optimize.circleindicator;
 
 import android.support.v4.view.ViewPager;
 
+import com.quenice.optimize.viewpagerandindicator.circleIndicator.CirclePagerIndicator;
+
 /**
  * 轮播管理器
  * Created by qiubb on 2016/7/17.
