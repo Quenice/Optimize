@@ -33,7 +33,7 @@
             android:name=".pickerview.PickerViewActivity"
             android:theme="@style/NoActionBar"/>
         <activity
-            android:name=".listview.demo.RefreshLoadActivity"
+            android:name=".refreshloadview.demo.RefreshLoadActivity"
             android:theme="@style/NoActionBar"/>
         <activity
             android:name=".tab.TabDemoActivity"

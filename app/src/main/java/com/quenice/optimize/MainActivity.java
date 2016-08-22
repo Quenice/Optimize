@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.quenice.optimize.eventhandle.EventHandleActivity;
 import com.quenice.optimize.horizontalview.HorizontalViewActivity;
-import com.quenice.optimize.listview.demo.RefreshLoadActivity;
+import com.quenice.optimize.refreshloadview.demo.RefreshLoadActivity;
 import com.quenice.optimize.official.coordinatorlayout.BottomSheetBehaviorActivity;
 import com.quenice.optimize.official.coordinatorlayout.FloatingActionButtonActivity;
 import com.quenice.optimize.official.recyclerview.RecyclerViewActivity;
