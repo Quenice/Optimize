@@ -85,6 +85,8 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 		switch (action) {
 			case MotionEvent.ACTION_DOWN:
 				mDownX = x;
+				mInterceptLastX = x;
+				mInterceptLastY = y;
 				if (mStatus == SLIDE_STATUS_ON && mLatestSwipeView != null) {
 					//如果点击的是操作区域，则不能intercept，需要把事件传递给操作区域的View
 					isIntercept = !mLatestSwipeView.isHintInActionArea(x, y);
@@ -128,8 +130,8 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 				break;
 		}
 
-		mInterceptLastX = x;
-		mInterceptLastY = y;
+//		mInterceptLastX = x;
+//		mInterceptLastY = y;
 		return isIntercept;
 	}
 
