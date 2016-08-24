@@ -5,6 +5,7 @@ import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewConfiguration;
 
 /**
@@ -80,14 +81,14 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 			return super.onInterceptTouchEvent(recyclerView, e);
 		if (mTouchInterceptor != null && mTouchInterceptor.dispatch(recyclerView, mActiveSwipeView))
 			return super.onInterceptTouchEvent(recyclerView, e);
-		boolean isintercept = false;
+		boolean isIntercept = false;
 		switch (action) {
 			case MotionEvent.ACTION_DOWN:
 				mDownX = x;
 				if (mStatus == SLIDE_STATUS_ON && mLatestSwipeView != null) {
 					//如果点击的是操作区域，则不能intercept，需要把事件传递给操作区域的View
-					isintercept = !mLatestSwipeView.isHintInActionArea(x, y);
-					if (!isintercept) needResponseAction = true;
+					isIntercept = !mLatestSwipeView.isHintInActionArea(x, y);
+					if (!isIntercept) needResponseAction = true;
 					Log.e("ItemSwipeHelper", "needResponseAction=" + needResponseAction);
 					mStatus = SLIDE_STATUS_SCROLL_AUTO_OFF;
 					mLatestSwipeView.smoothScroll(0, new SwipeCallback() {
@@ -117,7 +118,9 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 
 				}
 				if (mStatus == SLIDE_STATUS_SCROLL_MANUALLY || mStatus == SLIDE_STATUS_ON) {
-					isintercept = true;
+					//防止在item滑动的时候被外围scroll类的view阻断（比如与SwipeRefreshLayout下拉冲突）
+					recyclerView.requestDisallowInterceptTouchEvent(true);
+					isIntercept = true;
 				}
 				break;
 			case MotionEvent.ACTION_UP:
@@ -127,7 +130,7 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 
 		mInterceptLastX = x;
 		mInterceptLastY = y;
-		return isintercept;
+		return isIntercept;
 	}
 
 	@Override
@@ -213,7 +216,9 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 	 * @return
 	 */
 	public SwipeView getActiveSwipeView(RecyclerView recyclerView, float x, float y) {
-		return (SwipeView) recyclerView.findChildViewUnder(x, y);
+		View view = recyclerView.findChildViewUnder(x, y);
+		if (!(view instanceof SwipeView)) return null;
+		return (SwipeView) view;
 	}
 
 	/**
@@ -233,6 +238,7 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 	public TouchInterceptor getTouchInterceptor() {
 		return this.mTouchInterceptor;
 	}
+
 
 	/**
 	 * touch事件拦截器

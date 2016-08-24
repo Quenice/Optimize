@@ -76,6 +76,7 @@ public class RefreshLoadView<DATA> extends SwipeRefreshLayout {
 	 */
 	private void preLoad() {
 		loading = true;
+		if (mRefreshLoadListener != null) mRefreshLoadListener.preLoad();
 		this.setEnabled(false);
 		final int position = mData.size() - 1;
 		RLDataModel<DATA> model = mData.get(position);
@@ -93,6 +94,7 @@ public class RefreshLoadView<DATA> extends SwipeRefreshLayout {
 	 */
 	private void preRefresh() {
 		loading = true;
+		if (mRefreshLoadListener != null) mRefreshLoadListener.preRefresh();
 	}
 
 	/**
@@ -112,12 +114,12 @@ public class RefreshLoadView<DATA> extends SwipeRefreshLayout {
 		mData.remove(lastPosition);
 		mData.addAll(newData);
 		loading = false;
-		this.setEnabled(true);
+		this.setMode(mMode, true);
 		post(new Runnable() {
 			@Override
 			public void run() {
 				mAdapter.addFooterData(noMoreData ? RLDataModel.FOOTERTYPE_NOMOREDATA : RLDataModel.FOOTERTYPE_NORMAL);
-				if(refreshAll) {
+				if (refreshAll) {
 					mAdapter.notifyDataSetChanged();
 				} else {
 					mAdapter.notifyItemRangeInserted(lastPosition, newData.size());
@@ -125,6 +127,7 @@ public class RefreshLoadView<DATA> extends SwipeRefreshLayout {
 				}
 			}
 		});
+		if (mRefreshLoadListener != null) mRefreshLoadListener.afterLoad();
 	}
 
 	/**
@@ -156,6 +159,7 @@ public class RefreshLoadView<DATA> extends SwipeRefreshLayout {
 				mAdapter.notifyDataSetChanged();
 			}
 		});
+		if (mRefreshLoadListener != null) mRefreshLoadListener.afterRefresh();
 	}
 
 	/**
@@ -190,6 +194,8 @@ public class RefreshLoadView<DATA> extends SwipeRefreshLayout {
 					super.onScrolled(recyclerView, dx, dy);
 					//如果已无更多数据，或者正在加载，则直接返回
 					if (noMoreData || loading) return;
+					//支持中途更改mode
+					if (mMode != MODE_BOTH && mMode != MODE_LOAD) return;
 					//无初始化无数据，直接返回。注意：如果size=1，那么这条数据是footer的，也算作空
 					if (mData == null || mData.size() <= 1) return;
 					if (isBottom(recyclerView)) {
@@ -238,14 +244,28 @@ public class RefreshLoadView<DATA> extends SwipeRefreshLayout {
 	 * @param mode
 	 */
 	public void setMode(@MODE int mode) {
+		setMode(mode, false);
+	}
+
+	/**
+	 * 设置刷新/加载模式
+	 *
+	 * @param mode   模式
+	 * @param update 是否更新SwipRefreshLayout状态
+	 */
+	public void setMode(@MODE int mode, boolean update) {
 		this.mMode = mode;
+		if (update) this.setEnabled(mMode == MODE_BOTH || mMode == MODE_REFRESH);
 	}
 
 	/**
 	 * 获得当前刷新/加载模式
+	 *
 	 * @return
 	 */
-	public @MODE int getMode() {
+	public
+	@MODE
+	int getMode() {
 		return this.mMode;
 	}
 
@@ -260,6 +280,7 @@ public class RefreshLoadView<DATA> extends SwipeRefreshLayout {
 
 	/**
 	 * 设置刷新策略
+	 *
 	 * @param refreshAll
 	 */
 	public void setRefreshAll(boolean refreshAll) {
@@ -398,6 +419,15 @@ public class RefreshLoadView<DATA> extends SwipeRefreshLayout {
 	}
 
 	/**
+	 * 是否正在刷新/加载
+	 *
+	 * @return
+	 */
+	public boolean isLoading() {
+		return loading;
+	}
+
+	/**
 	 * 加载/刷新数据监听
 	 *
 	 * @param <DATA>
@@ -416,6 +446,64 @@ public class RefreshLoadView<DATA> extends SwipeRefreshLayout {
 		 * @param callback 数据加载完之后的回调
 		 */
 		void onLoad(FinishDataCallback<DATA> callback);
+
+		/**
+		 * 刷新之前调用
+		 */
+		void preRefresh();
+
+		/**
+		 * 加载之前调用
+		 */
+		void preLoad();
+
+		/**
+		 * 刷新之后调用。这个其实是在onRefresh.callback.onFinish()中调用的
+		 */
+		void afterRefresh();
+
+		/**
+		 * 加载之后调用。这个其实实在onLoad.callback.onFinish()中调用的
+		 */
+		void afterLoad();
+	}
+
+	/**
+	 * 加载/刷新数据监听
+	 *
+	 * @param <DATA>
+	 */
+	public static class SimpleRefreshLoadListener<DATA> implements RefreshLoadListener<DATA> {
+
+		@Override
+		public void onRefresh(FinishDataCallback<DATA> callback) {
+
+		}
+
+		@Override
+		public void onLoad(FinishDataCallback<DATA> callback) {
+
+		}
+
+		@Override
+		public void preRefresh() {
+
+		}
+
+		@Override
+		public void preLoad() {
+
+		}
+
+		@Override
+		public void afterRefresh() {
+
+		}
+
+		@Override
+		public void afterLoad() {
+
+		}
 	}
 
 	public interface FinishDataCallback<DATA> {

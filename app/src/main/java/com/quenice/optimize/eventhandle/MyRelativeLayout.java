@@ -32,19 +32,42 @@ public class MyRelativeLayout extends RelativeLayout {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		Log.e("RelativeLayout", "onInterceptTouchEvent");
-		return true;
+//		Log.e("RelativeLayout", "onInterceptTouchEvent");
+		switch (ev.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				Log.e("RelativeLayout", "onInterceptTouchEvent.down");
+//				return true;
+				break;
+			case MotionEvent.ACTION_MOVE:
+				Log.e("RelativeLayout", "onInterceptTouchEvent.move");
+				break;
+			case MotionEvent.ACTION_UP:
+				Log.e("RelativeLayout", "onInterceptTouchEvent.up");
+				break;
+		}
+		return super.onInterceptTouchEvent(ev);
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		Log.e("RelativeLayout", "onTouchEvent");
-		return super.onTouchEvent(event);
+	public boolean onTouchEvent(MotionEvent ev) {
+//		Log.e("RelativeLayout", "onTouchEvent");
+		switch (ev.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				Log.e("RelativeLayout", "onTouchEvent.down");
+				break;
+			case MotionEvent.ACTION_MOVE:
+				Log.e("RelativeLayout", "onTouchEvent.move");
+				break;
+			case MotionEvent.ACTION_UP:
+				Log.e("RelativeLayout", "onTouchEvent.up");
+				break;
+		}
+		return super.onTouchEvent(ev);
 	}
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		Log.e("RelativeLayout", "dispatchTouchEvent");
+//		Log.e("RelativeLayout", "dispatchTouchEvent");
 		return super.dispatchTouchEvent(ev);
 	}
 }

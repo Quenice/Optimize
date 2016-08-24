@@ -59,6 +59,9 @@
         <activity
             android:name=".viewpagerandindicator.circleIndicator.CircleIndicatorActivity"
             android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".swipeviewandrefreshloadview.SRLActivity"
+            android:theme="@style/NoActionBar"/>
     </application>
 
 </manifest>

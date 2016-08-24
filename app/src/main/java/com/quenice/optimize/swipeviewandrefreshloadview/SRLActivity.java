@@ -1,4 +1,4 @@
-package com.quenice.optimize.refreshloadview.demo;
+package com.quenice.optimize.swipeviewandrefreshloadview;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,31 +13,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 上拉刷新，下拉加载更多listview
- * Created by qiubb on 2016/6/29.
+ * SwipView and RefreshLoadView
+ * Created by qiubb on 2016/8/23.
  */
-public class RefreshLoadActivity extends AppCompatActivity {
+public class SRLActivity extends AppCompatActivity {
 	private RefreshLoadView<String> refreshLoadView;
-	private DemoAdapter mAdapter;
-	private List<String> mData;
+	private SRLAdapter srlAdapter;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_refreshload);
-		init();
-	}
-
-	private void init() {
-		refreshLoadView = (RefreshLoadView<String>) findViewById(R.id.listview);
-		List<String> list = new ArrayList<>();
+		setContentView(R.layout.activity_swipeviewandrefreshloadview);
+		final List<String> data = new ArrayList<>();
 		for (int i = 0; i < 20; i++) {
-			list.add(i + "");
+			data.add(i + "");
 		}
-		mData = list;
-		mAdapter = new DemoAdapter(this, mData);
+		refreshLoadView = (RefreshLoadView<String>) findViewById(R.id.refreshLoadView);
+		srlAdapter = new SRLAdapter(this, data);
 		refreshLoadView.setMode(RefreshLoadView.MODE_BOTH);
+		refreshLoadView.enableItemDecoration(true);
 		refreshLoadView.setRefreshLoadListener(new RefreshLoadView.SimpleRefreshLoadListener<String>() {
+
+			@Override
+			public void preLoad() {
+				super.preLoad();
+				srlAdapter.setCanSwipe(false);
+			}
+
+			@Override
+			public void preRefresh() {
+				super.preRefresh();
+				srlAdapter.setCanSwipe(false);
+			}
+
+			@Override
+			public void afterLoad() {
+				super.afterLoad();
+				srlAdapter.setCanSwipe(true);
+			}
+
+			@Override
+			public void afterRefresh() {
+				super.afterRefresh();
+				srlAdapter.setCanSwipe(true);
+			}
 
 			@Override
 			public void onRefresh(final RefreshLoadView.FinishDataCallback<String> callback) {
@@ -46,7 +65,7 @@ public class RefreshLoadActivity extends AppCompatActivity {
 					protected List<String> doInBackground(Integer... params) {
 						try {
 							Log.e("Activity", "onRefresh:" + Thread.currentThread().getId() + ", " + Thread.currentThread().getName());
-							Thread.sleep(3000);
+							Thread.sleep(5000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -74,7 +93,7 @@ public class RefreshLoadActivity extends AppCompatActivity {
 					protected List<String> doInBackground(Integer... params) {
 						try {
 							Log.e("Activity", "onLoad:" + Thread.currentThread().getId() + ", " + Thread.currentThread().getName());
-							Thread.sleep(10000);
+							Thread.sleep(5000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -92,11 +111,10 @@ public class RefreshLoadActivity extends AppCompatActivity {
 						super.onPostExecute(list);
 						callback.onFinish(list, false);
 					}
-				}.execute(mData.size() - 2);
+				}.execute(data.size() - 2);
 			}
 		});
-		refreshLoadView.setAdapter(mAdapter);
-		refreshLoadView.enableItemDecoration(true);
+		refreshLoadView.setAdapter(srlAdapter);
 		refreshLoadView.init(false);
 	}
 }

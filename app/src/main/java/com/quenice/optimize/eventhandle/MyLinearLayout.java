@@ -31,19 +31,41 @@ public class MyLinearLayout extends LinearLayout {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		Log.e("LinearLayout", "onInterceptTouchEvent");
+//		Log.e("LinearLayout", "onInterceptTouchEvent");
+		switch (ev.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				Log.e("LinearLayout", "onInterceptTouchEvent.down");
+				break;
+			case MotionEvent.ACTION_MOVE:
+				Log.e("LinearLayout", "onInterceptTouchEvent.move");
+				break;
+			case MotionEvent.ACTION_UP:
+				Log.e("LinearLayout", "onInterceptTouchEvent.up");
+				break;
+		}
 		return super.onInterceptTouchEvent(ev);
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		Log.e("LinearLayout", "onTouchEvent");
-		return super.onTouchEvent(event);
+	public boolean onTouchEvent(MotionEvent ev) {
+//		Log.e("LinearLayout", "onTouchEvent");
+		switch (ev.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				Log.e("LinearLayout", "onTouchEvent.down");
+				break;
+			case MotionEvent.ACTION_MOVE:
+				Log.e("LinearLayout", "onTouchEvent.move");
+				break;
+			case MotionEvent.ACTION_UP:
+				Log.e("LinearLayout", "onTouchEvent.up");
+				break;
+		}
+		return super.onTouchEvent(ev);
 	}
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		Log.e("LinearLayout", "dispatchTouchEvent=");
-		return  super.dispatchTouchEvent(ev);
+//		Log.e("LinearLayout", "dispatchTouchEvent=");
+		return super.dispatchTouchEvent(ev);
 	}
 }

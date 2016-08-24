@@ -1,14 +1,11 @@
 package com.quenice.optimize.refreshloadview.widget;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,6 +69,20 @@ public abstract class RLRecyclerAdapter<DATA> extends RecyclerView.Adapter<Recyc
 		return mData.get(position);
 	}
 
+	/**
+	 * 删除对应位置数据，并刷新
+	 * @param position
+	 */
+	public void removeItem(int position) {
+		if (position < 0) return;
+		if (position >= mData.size()) return;
+		mData.remove(position);
+		notifyItemRemoved(position);
+		int len = mData.size();
+		if (position >= len) return;
+		notifyItemRangeChanged(position, len - 1);
+	}
+
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		switch (viewType) {
@@ -111,8 +122,6 @@ public abstract class RLRecyclerAdapter<DATA> extends RecyclerView.Adapter<Recyc
 	}
 
 	static class FooterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		private int[] colors;
-		final static int MAX_ALPHA = 255;
 		View mItemView;
 		View mNormalFooterView;
 		View mNoneDataFooterView;
@@ -121,20 +130,18 @@ public abstract class RLRecyclerAdapter<DATA> extends RecyclerView.Adapter<Recyc
 		ImageView iv;
 		TextView tv;
 		MaterialProgressDrawable progressDrawable;
-		ValueAnimator valueAnimator;
 		RLRecyclerAdapter recyclerAdapter;
 
 		public FooterViewHolder(RLRecyclerAdapter recyclerAdapter, Context context, View itemView) {
 			super(itemView);
 			mContext = context;
-			colors = new int[]{ContextCompat.getColor(context, android.R.color.holo_blue_bright)};
 			this.recyclerAdapter = recyclerAdapter;
 			this.mItemView = itemView;
 			this.mNormalFooterView = itemView.findViewById(R.id.v_normalfooter);
 			this.iv = (ImageView) itemView.findViewById(R.id.iv);
 			this.tv = (TextView) itemView.findViewById(R.id.tv);
 			initCustomFooterView();
-			initDrawable();
+			progressDrawable = RefreshLoadHelper.getMaterialProgressDrawable(context, iv);
 		}
 
 		void initCustomFooterView() {
@@ -159,36 +166,11 @@ public abstract class RLRecyclerAdapter<DATA> extends RecyclerView.Adapter<Recyc
 			}
 		}
 
-		private void initDrawable() {
-			progressDrawable = new MaterialProgressDrawable(mContext, iv);
-			progressDrawable.setBackgroundColor(0xFFFAFAFA);
-			progressDrawable.setColorSchemeColors(colors);
-			progressDrawable.updateSizes(MaterialProgressDrawable.DEFAULT);
-			iv.setBackground(progressDrawable);
-			valueAnimator = ValueAnimator.ofFloat(0f, 1f);
-			valueAnimator.setDuration(600);
-			valueAnimator.setInterpolator(new DecelerateInterpolator());
-			valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator animation) {
-					float n = (float) animation.getAnimatedValue();
-					//圈圈的旋转角度
-					progressDrawable.setProgressRotation(n * 0.5f);
-					//圈圈周长，0f-1F
-					progressDrawable.setStartEndTrim(0f, n * 0.8f);
-					//箭头大小，0f-1F
-					progressDrawable.setArrowScale(n);
-					//透明度，0-255
-					progressDrawable.setAlpha((int) (MAX_ALPHA * n));
-				}
-			});
-		}
-
 		void switchType(int footerType) {
 			int mode = recyclerAdapter.getRefreshLoadView().getMode();
 			switch (footerType) {
 				case RLDataModel.FOOTERTYPE_NORMAL:
-					endAnim();
+					RefreshLoadHelper.endProgressAnim(progressDrawable, iv);
 					if (mNoneDataFooterView != null) mNoneDataFooterView.setVisibility(View.GONE);
 					if (mNoMoreFooterView != null) mNoMoreFooterView.setVisibility(View.GONE);
 					if (mode == RefreshLoadView.MODE_NONE || mode == RefreshLoadView.MODE_REFRESH) {
@@ -201,7 +183,7 @@ public abstract class RLRecyclerAdapter<DATA> extends RecyclerView.Adapter<Recyc
 					}
 					break;
 				case RLDataModel.FOOTERTYPE_LOADING:
-					startAnim();
+					RefreshLoadHelper.startProgressAnim(progressDrawable, iv);
 					if (mNoneDataFooterView != null) mNoneDataFooterView.setVisibility(View.GONE);
 					if (mNoMoreFooterView != null) mNoMoreFooterView.setVisibility(View.GONE);
 
@@ -214,7 +196,7 @@ public abstract class RLRecyclerAdapter<DATA> extends RecyclerView.Adapter<Recyc
 					}
 					break;
 				case RLDataModel.FOOTERTYPE_NOMOREDATA:
-					endAnim();
+					RefreshLoadHelper.endProgressAnim(progressDrawable, iv);
 					if (mNoneDataFooterView != null) mNoneDataFooterView.setVisibility(View.GONE);
 					if (mNoMoreFooterView != null) {
 						mNoMoreFooterView.setVisibility(View.VISIBLE);
@@ -230,7 +212,7 @@ public abstract class RLRecyclerAdapter<DATA> extends RecyclerView.Adapter<Recyc
 					}
 					break;
 				case RLDataModel.FOOTERTYPE_NONEDATA:
-					endAnim();
+					RefreshLoadHelper.endProgressAnim(progressDrawable, iv);
 					if (mNoneDataFooterView != null)
 						mNoneDataFooterView.setVisibility(View.VISIBLE);
 					if (mNoMoreFooterView != null) mNoMoreFooterView.setVisibility(View.GONE);
@@ -239,23 +221,8 @@ public abstract class RLRecyclerAdapter<DATA> extends RecyclerView.Adapter<Recyc
 			}
 		}
 
-		private void startAnim() {
-			iv.setVisibility(View.VISIBLE);
-			if (valueAnimator != null && !valueAnimator.isStarted() && !valueAnimator.isRunning()) {
-				valueAnimator.start();
-			}
-			if (progressDrawable != null && !progressDrawable.isRunning()) {
-				progressDrawable.setAlpha(MAX_ALPHA);
-				progressDrawable.start();
-			}
-		}
-
-		private void endAnim() {
-			iv.setVisibility(View.GONE);
-			if (valueAnimator != null && (valueAnimator.isStarted() || valueAnimator.isRunning()))
-				valueAnimator.end();
-			if (progressDrawable != null && progressDrawable.isRunning())
-				progressDrawable.stop();
+		void endAnim() {
+			RefreshLoadHelper.endProgressAnim(progressDrawable, iv);
 		}
 
 		@Override

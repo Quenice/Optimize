@@ -1,8 +1,11 @@
 package com.quenice.optimize.refreshloadview.widget;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +15,53 @@ import java.util.List;
  * Created by qiubb on 2016/7/1.
  */
 public class RefreshLoadHelper {
+	private final static int MAX_ALPHA = 255;
+
+	/**
+	 * 获得一个MaterialProgressDrawable
+	 *
+	 * @param context
+	 * @param target
+	 * @return
+	 */
+	public static MaterialProgressDrawable getMaterialProgressDrawable(Context context, ImageView target) {
+		int[] colors = new int[]{ContextCompat.getColor(context, android.R.color.holo_blue_bright)};
+		MaterialProgressDrawable progressDrawable = new MaterialProgressDrawable(context, target);
+		//progressDrawable.setBackgroundColor(0xFFFAFAFA);
+		progressDrawable.setColorSchemeColors(colors);
+		progressDrawable.updateSizes(MaterialProgressDrawable.DEFAULT);
+		target.setBackground(progressDrawable);
+		return progressDrawable;
+	}
+
+	/**
+	 * 开始MaterialProgressDrawable动画
+	 *
+	 * @param progressDrawable
+	 * @param target
+	 */
+	public static void startProgressAnim(MaterialProgressDrawable progressDrawable, ImageView target) {
+		if (target != null)
+			target.setVisibility(View.VISIBLE);
+		if (progressDrawable != null && !progressDrawable.isRunning()) {
+			progressDrawable.setAlpha(MAX_ALPHA);
+			progressDrawable.start();
+		}
+	}
+
+	/**
+	 * 结束MaterialProgressDrawable动画
+	 *
+	 * @param progressDrawable
+	 * @param target
+	 */
+	public static void endProgressAnim(MaterialProgressDrawable progressDrawable, ImageView target) {
+		if (target != null)
+			target.setVisibility(View.GONE);
+		if (progressDrawable != null && progressDrawable.isRunning())
+			progressDrawable.stop();
+	}
+
 	/**
 	 * 包裹数据
 	 *
