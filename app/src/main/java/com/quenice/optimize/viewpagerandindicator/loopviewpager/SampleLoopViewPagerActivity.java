@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.quenice.optimize.R;
+import com.quenice.optimize.viewpagerandindicator.loopviewpager.widget.LoopViewPager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * 循环viewpager
  * Created by qiubb on 2016/8/19.
  */
-public class LoopViewPagerActivity extends AppCompatActivity {
+public class SampleLoopViewPagerActivity extends AppCompatActivity {
 	private LoopViewPager mViewPager;
 	private List<String> data;
 
@@ -21,8 +22,8 @@ public class LoopViewPagerActivity extends AppCompatActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_loop_viewpager);
-		data = Arrays.asList("1", "2");
+		data = Arrays.asList("1");
 		mViewPager = (LoopViewPager) findViewById(R.id.viewPager);
-		mViewPager.setAdapter(new LoopPagerAdapter<>(data));
+		mViewPager.setAdapter(new SampleLoopPagerAdapter<>(data));
 	}
 }

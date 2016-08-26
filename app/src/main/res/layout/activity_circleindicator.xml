@@ -9,7 +9,7 @@
         android:layout_height="match_parent"/>
 
 
-    <com.quenice.optimize.viewpagerandindicator.circleIndicator.CirclePagerIndicator
+    <com.quenice.optimize.viewpagerandindicator.circleindicator.widget.CirclePagerIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="50dp"

@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.quenice.optimize.viewpagerandindicator.loopviewpager.LoopViewPager
+    <com.quenice.optimize.viewpagerandindicator.loopviewpager.widget.LoopViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

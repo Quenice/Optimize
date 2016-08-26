@@ -1,4 +1,4 @@
-package com.quenice.optimize.viewpagerandindicator.circleIndicator;
+package com.quenice.optimize.viewpagerandindicator.circleindicator.widget;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

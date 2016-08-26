@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.quenice.optimize.R;
-import com.quenice.optimize.viewpagerandindicator.circleIndicator.CircleIndicatorActivity;
-import com.quenice.optimize.viewpagerandindicator.loopviewpager.LoopViewPagerActivity;
+import com.quenice.optimize.viewpagerandindicator.circleindicator.widget.CircleIndicatorActivity;
+import com.quenice.optimize.viewpagerandindicator.loopviewpager.SampleLoopViewPagerActivity;
 
 /**
  * Created by qiubb on 2016/8/19.
@@ -43,7 +43,7 @@ public class ViewPagerAndIndicatorActivity extends AppCompatActivity implements 
 				startActivity(new Intent(this, CircleIndicatorActivity.class));
 				break;
 			case R.id.tv_loopviewpager:
-				startActivity(new Intent(this, LoopViewPagerActivity.class));
+				startActivity(new Intent(this, SampleLoopViewPagerActivity.class));
 				break;
 		}
 	}

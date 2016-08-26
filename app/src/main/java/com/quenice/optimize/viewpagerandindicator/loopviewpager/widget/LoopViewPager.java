@@ -1,4 +1,4 @@
-package com.quenice.optimize.viewpagerandindicator.loopviewpager;
+package com.quenice.optimize.viewpagerandindicator.loopviewpager.widget;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
@@ -21,6 +21,7 @@ public class LoopViewPager extends ViewPager {
 		adapter.setViewPager(this);
 		addOnPageChangeListener(adapter);
 		super.setAdapter(adapter);
-		setCurrentItem(1, false);
+		if (adapter.isLoopable())
+			setCurrentItem(1, false);
 	}
 }

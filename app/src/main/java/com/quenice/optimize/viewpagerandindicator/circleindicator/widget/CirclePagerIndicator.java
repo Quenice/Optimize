@@ -1,4 +1,4 @@
-package com.quenice.optimize.viewpagerandindicator.circleIndicator;
+package com.quenice.optimize.viewpagerandindicator.circleindicator.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;

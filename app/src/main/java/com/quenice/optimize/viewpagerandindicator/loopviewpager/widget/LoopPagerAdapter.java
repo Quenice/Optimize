@@ -1,12 +1,10 @@
-package com.quenice.optimize.viewpagerandindicator.loopviewpager;
+package com.quenice.optimize.viewpagerandindicator.loopviewpager.widget;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +13,27 @@ import java.util.List;
  * 循环的viewpager adapter
  * Created by qiubb on 2016/8/19.
  */
-public class LoopPagerAdapter<DATA> extends PagerAdapter implements ViewPager.OnPageChangeListener {
-	private List<DATA> mData;
+public abstract class LoopPagerAdapter<DATA> extends PagerAdapter implements ViewPager.OnPageChangeListener {
+	protected List<DATA> mData;
 	private View[] views;
 	private ViewPager mViewPager;
+	private boolean loopable;
 
-	LoopPagerAdapter(List<DATA> data) {
+	public LoopPagerAdapter(List<DATA> data) {
+		if (data == null) data = new ArrayList<>();
 		int len = data.size();
-		mData = new ArrayList<>();
-		mData.add(data.get(len - 1));
-		mData.addAll(data);
-		mData.add(data.get(0));
-		views = new View[len + 2];
+		if (len <= 1) {
+			mData = data;
+			views = new View[1];
+			loopable = false;
+		} else {
+			mData = new ArrayList<>();
+			mData.add(data.get(len - 1));
+			mData.addAll(data);
+			mData.add(data.get(0));
+			views = new View[len + 2];
+			loopable = true;
+		}
 	}
 
 	public void setViewPager(ViewPager viewPager) {
@@ -34,39 +41,37 @@ public class LoopPagerAdapter<DATA> extends PagerAdapter implements ViewPager.On
 	}
 
 	@Override
-	public int getCount() {
+	public final int getCount() {
 		return mData.size();
 	}
 
+	public abstract View createView(ViewGroup container, int position);
+
 	@Override
-	public Object instantiateItem(ViewGroup container, int position) {
+	public final Object instantiateItem(ViewGroup container, int position) {
 		if (views[position] == null) {
 //			ImageView imageView = new ImageView(container.getContext());
 //			imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 //			imageView.setImageResource(container.getResources().getIdentifier("ic_horizontalview" + mData.get(position), "drawable", container.getContext().getPackageName()));
-			TextView imageView = new TextView(container.getContext());
-			imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-			imageView.setText("" + mData.get(position));
-			imageView.setGravity(Gravity.CENTER);
-			imageView.setTextSize(60);
-			views[position] = imageView;
+			views[position] = createView(container, position);
 		}
 		container.addView(views[position]);
 		return views[position];
 	}
 
 	@Override
-	public void destroyItem(ViewGroup container, int position, Object object) {
+	public final void destroyItem(ViewGroup container, int position, Object object) {
 		container.removeView((View) object);
 	}
 
 	@Override
-	public boolean isViewFromObject(View view, Object object) {
+	public final boolean isViewFromObject(View view, Object object) {
 		return view == object;
 	}
 
 	@Override
-	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+	public final void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+		if (!loopable) return;
 		//第一个页面，偏移量1到0（从隐藏到显示）
 		if (position == 0) {
 			if (positionOffset - 0.05 <= 0.0f) {
@@ -90,5 +95,9 @@ public class LoopPagerAdapter<DATA> extends PagerAdapter implements ViewPager.On
 
 	@Override
 	public void onPageScrollStateChanged(int state) {
+	}
+
+	public boolean isLoopable() {
+		return loopable;
 	}
 }
