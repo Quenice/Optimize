@@ -210,6 +210,22 @@ public class ItemSwipeHelper extends RecyclerView.SimpleOnItemTouchListener {
 	}
 
 	/**
+	 * 如果有未关闭的item，关闭它
+	 */
+	public void swipeItem2Closed() {
+		if(mLatestSwipeView != null && mStatus != SLIDE_STATUS_OFF) {
+			mLatestSwipeView.smoothScroll(0, new SwipeCallback() {
+				@Override
+				public void onFinish() {
+					mStatus = SLIDE_STATUS_OFF;
+					needResponseAction = false;
+					mLatestSwipeView = null;
+				}
+			});
+		}
+	}
+
+	/**
 	 * 根据x、y坐标获得对应item
 	 *
 	 * @param recyclerView

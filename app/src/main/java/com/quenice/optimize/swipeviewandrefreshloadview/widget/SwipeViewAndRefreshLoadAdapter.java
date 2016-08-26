@@ -17,6 +17,7 @@ import java.util.List;
 public abstract class SwipeViewAndRefreshLoadAdapter<DATA> extends RLRecyclerAdapter<DATA> implements ItemSwipeHelper.TouchInterceptor {
 
 	private boolean canSwipe = true;
+	private ItemSwipeHelper mItemSwipeHelper;
 
 	/**
 	 * 是否允许item能够滑动。
@@ -42,10 +43,18 @@ public abstract class SwipeViewAndRefreshLoadAdapter<DATA> extends RLRecyclerAda
 		super(data, context);
 	}
 
-	public final ItemSwipeHelper getItemSwipeHelper(Context context) {
-		ItemSwipeHelper itemSwipeHelper = new ItemSwipeHelper(context);
-		itemSwipeHelper.setTouchInterceptor(this);
-		return itemSwipeHelper;
+	/**
+	 * 获得item滑动辅助实例。
+	 *
+	 * @param context
+	 * @return
+	 */
+	public final synchronized ItemSwipeHelper getItemSwipeHelper(Context context) {
+		if (mItemSwipeHelper == null) {
+			mItemSwipeHelper = new ItemSwipeHelper(context);
+			mItemSwipeHelper.setTouchInterceptor(this);
+		}
+		return mItemSwipeHelper;
 	}
 
 	@Override
