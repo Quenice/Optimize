@@ -38,5 +38,27 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp"/>
 
+        <TextView
+            android:id="@+id/tv_loopcircleindicatorviewpager"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/base_button"
+            android:gravity="center"
+            android:text="Loop Circle Indicator ViewPager"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_autoloopcircleindicatorviewpager"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/base_button"
+            android:gravity="center"
+            android:text="Auto Loopable Circle Indicator ViewPager"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"/>
+
     </LinearLayout>
 </ScrollView>

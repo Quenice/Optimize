@@ -57,10 +57,16 @@
             android:name=".viewpagerandindicator.loopviewpager.SampleLoopViewPagerActivity"
             android:theme="@style/NoActionBar"/>
         <activity
-            android:name=".viewpagerandindicator.circleindicator.widget.CircleIndicatorActivity"
+            android:name=".viewpagerandindicator.circleindicator.demo.CircleIndicatorActivity"
             android:theme="@style/NoActionBar"/>
         <activity
             android:name=".swipeviewandrefreshloadview.SRLActivity"
+            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".viewpagerandindicator.loopcircleindicator.demo.SampleLoopCircleIndicatorActivity"
+            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".viewpagerandindicator.loopcircleindicator.demo.SampleAutoLoopableCircleIndicatorActivity"
             android:theme="@style/NoActionBar"/>
     </application>
 

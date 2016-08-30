@@ -1,13 +1,13 @@
 package com.quenice.optimize.viewpagerandindicator.circleindicator.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 
 import com.quenice.optimize.R;
@@ -21,6 +21,8 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 	private ViewPager mViewPager;
 	//圆半径
 	private int mRadius;
+	private int mCircleColor;
+	private int mPointColor;
 	//当前页
 	private int mCurrentPage;
 	private int mState;
@@ -38,7 +40,6 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 	private Paint mCirclePaint;
 	//圆paint
 	private Paint mPointPaint;
-	private int mTimes;
 	//是否需要显示平滑滑动过程
 	private boolean smoothly = true;
 
@@ -56,23 +57,23 @@ public class CirclePagerIndicator extends View implements ViewPager.OnPageChange
 	}
 
 	private void init(Context context, AttributeSet attrs) {
-		mRadius = dp2px(6);
-		mInterval = dp2px(10);
-		mCircleStorkWidth = dp2px(4);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CirclePagerIndicator);
+		mRadius = a.getDimensionPixelSize(R.styleable.CirclePagerIndicator_cpiRadius, 5);
+		mInterval = a.getDimensionPixelSize(R.styleable.CirclePagerIndicator_cpiInterval, 10);
+		mCircleColor = a.getColor(R.styleable.CirclePagerIndicator_cpiCircleColor, ContextCompat.getColor(context, android.R.color.white));
+		mPointColor = a.getColor(R.styleable.CirclePagerIndicator_cpiPointColor, ContextCompat.getColor(context, android.R.color.white));
+		mCircleStorkWidth = a.getDimensionPixelSize(R.styleable.CirclePagerIndicator_cpiCircleStorkWidth, 4);
+		a.recycle();
 		mCirclePaint = new Paint();
 		mCirclePaint.setAntiAlias(true);
 		mCirclePaint.setStyle(Paint.Style.STROKE);
 		mCirclePaint.setStrokeWidth(mCircleStorkWidth);
-		mCirclePaint.setColor(ContextCompat.getColor(context, R.color.colorAccent));
+		mCirclePaint.setColor(mCircleColor);
 
 		mPointPaint = new Paint();
 		mPointPaint.setAntiAlias(true);
 		mPointPaint.setStyle(Paint.Style.FILL);
-		mPointPaint.setColor(ContextCompat.getColor(context, R.color.colorPrimary));
-	}
-
-	private int dp2px(float dp) {
-		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+		mPointPaint.setColor(mPointColor);
 	}
 
 	@Override

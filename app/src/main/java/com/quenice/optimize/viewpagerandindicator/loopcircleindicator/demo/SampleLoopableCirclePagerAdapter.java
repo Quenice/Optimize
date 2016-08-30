@@ -1,11 +1,11 @@
-package com.quenice.optimize.viewpagerandindicator.loopviewpager;
+package com.quenice.optimize.viewpagerandindicator.loopcircleindicator.demo;
 
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.quenice.optimize.viewpagerandindicator.loopviewpager.widget.LoopPagerAdapter;
+import com.quenice.optimize.viewpagerandindicator.loopviewpager.widget.LoopablePagerAdapter;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import java.util.List;
  * 循环的viewpager adapter
  * Created by qiubb on 2016/8/19.
  */
-public class SampleLoopPagerAdapter<DATA> extends LoopPagerAdapter<DATA> {
-	public SampleLoopPagerAdapter(List<DATA> data) {
+public class SampleLoopableCirclePagerAdapter<DATA> extends LoopablePagerAdapter<DATA> {
+	public SampleLoopableCirclePagerAdapter(List<DATA> data) {
 		super(data);
 	}
 

@@ -8,16 +8,16 @@ import android.util.AttributeSet;
  * 循环ViewPager
  * Created by qiubb on 2016/8/19.
  */
-public class LoopViewPager extends ViewPager {
-	public LoopViewPager(Context context) {
+public class LoopableViewPager extends ViewPager {
+	public LoopableViewPager(Context context) {
 		super(context);
 	}
 
-	public LoopViewPager(Context context, AttributeSet attrs) {
+	public LoopableViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public void setAdapter(LoopPagerAdapter adapter) {
+	public void setAdapter(LoopablePagerAdapter adapter) {
 		adapter.setViewPager(this);
 		addOnPageChangeListener(adapter);
 		super.setAdapter(adapter);

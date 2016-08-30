@@ -1,8 +1,21 @@
 <resources>
+    <attr name="cpiRadius" format="dimension"/>
+    <attr name="cpiInterval" format="dimension"/>
+    <attr name="cpiCircleStorkWidth" format="dimension"/>
+    <attr name="cpiCircleColor" format="color"/>
+    <attr name="cpiPointColor" format="color"/>
     <declare-styleable name="CirclePagerIndicator">
-        <attr name="exampleString" format="string"/>
-        <attr name="exampleDimension" format="dimension"/>
-        <attr name="exampleColor" format="color"/>
-        <attr name="exampleDrawable" format="color|reference"/>
+        <attr name="cpiRadius"/>
+        <attr name="cpiInterval"/>
+        <attr name="cpiCircleStorkWidth"/>
+        <attr name="cpiCircleColor"/>
+        <attr name="cpiPointColor"/>
+    </declare-styleable>
+    <declare-styleable name="LoopableCirclePagerIndicator">
+        <attr name="cpiRadius"/>
+        <attr name="cpiInterval"/>
+        <attr name="cpiCircleStorkWidth"/>
+        <attr name="cpiCircleColor"/>
+        <attr name="cpiPointColor"/>
     </declare-styleable>
 </resources>

@@ -13,13 +13,13 @@ import java.util.List;
  * 循环的viewpager adapter
  * Created by qiubb on 2016/8/19.
  */
-public abstract class LoopPagerAdapter<DATA> extends PagerAdapter implements ViewPager.OnPageChangeListener {
+public abstract class LoopablePagerAdapter<DATA> extends PagerAdapter implements ViewPager.OnPageChangeListener {
 	protected List<DATA> mData;
 	private View[] views;
-	private ViewPager mViewPager;
+	protected ViewPager mViewPager;
 	private boolean loopable;
 
-	public LoopPagerAdapter(List<DATA> data) {
+	public LoopablePagerAdapter(List<DATA> data) {
 		if (data == null) data = new ArrayList<>();
 		int len = data.size();
 		if (len <= 1) {
@@ -50,9 +50,6 @@ public abstract class LoopPagerAdapter<DATA> extends PagerAdapter implements Vie
 	@Override
 	public final Object instantiateItem(ViewGroup container, int position) {
 		if (views[position] == null) {
-//			ImageView imageView = new ImageView(container.getContext());
-//			imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//			imageView.setImageResource(container.getResources().getIdentifier("ic_horizontalview" + mData.get(position), "drawable", container.getContext().getPackageName()));
 			views[position] = createView(container, position);
 		}
 		container.addView(views[position]);

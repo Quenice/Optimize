@@ -1,4 +1,4 @@
-package com.quenice.optimize.viewpagerandindicator.circleindicator.widget;
+package com.quenice.optimize.viewpagerandindicator.circleindicator.demo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.quenice.optimize.R;
+import com.quenice.optimize.viewpagerandindicator.circleindicator.widget.CirclePagerIndicator;
 
 /**
  * Created by qiubb on 2016/7/14.
@@ -46,7 +47,7 @@ public class CircleIndicatorActivity extends AppCompatActivity {
 
 		@Override
 		public int getCount() {
-			return 5;
+			return 1;
 		}
 
 		@Override

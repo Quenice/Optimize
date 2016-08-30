@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.quenice.optimize.R;
-import com.quenice.optimize.viewpagerandindicator.circleindicator.widget.CircleIndicatorActivity;
+import com.quenice.optimize.viewpagerandindicator.circleindicator.demo.CircleIndicatorActivity;
+import com.quenice.optimize.viewpagerandindicator.loopcircleindicator.demo.SampleAutoLoopableCircleIndicatorActivity;
+import com.quenice.optimize.viewpagerandindicator.loopcircleindicator.demo.SampleLoopCircleIndicatorActivity;
 import com.quenice.optimize.viewpagerandindicator.loopviewpager.SampleLoopViewPagerActivity;
 
 /**
@@ -16,6 +18,8 @@ import com.quenice.optimize.viewpagerandindicator.loopviewpager.SampleLoopViewPa
 public class ViewPagerAndIndicatorActivity extends AppCompatActivity implements View.OnClickListener {
 	private View tv_circleindicator;
 	private View tv_loopviewpager;
+	private View tv_loopcircleindicatorviewpager;
+	private View tv_autoloopcircleindicatorviewpager;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,11 +33,15 @@ public class ViewPagerAndIndicatorActivity extends AppCompatActivity implements 
 	private void initVars() {
 		tv_circleindicator = findViewById(R.id.tv_circleindicator);
 		tv_loopviewpager = findViewById(R.id.tv_loopviewpager);
+		tv_loopcircleindicatorviewpager = findViewById(R.id.tv_loopcircleindicatorviewpager);
+		tv_autoloopcircleindicatorviewpager = findViewById(R.id.tv_autoloopcircleindicatorviewpager);
 	}
 
 	private void initListeners() {
 		tv_circleindicator.setOnClickListener(this);
 		tv_loopviewpager.setOnClickListener(this);
+		tv_loopcircleindicatorviewpager.setOnClickListener(this);
+		tv_autoloopcircleindicatorviewpager.setOnClickListener(this);
 	}
 
 	@Override
@@ -44,6 +52,12 @@ public class ViewPagerAndIndicatorActivity extends AppCompatActivity implements 
 				break;
 			case R.id.tv_loopviewpager:
 				startActivity(new Intent(this, SampleLoopViewPagerActivity.class));
+				break;
+			case R.id.tv_loopcircleindicatorviewpager:
+				startActivity(new Intent(this, SampleLoopCircleIndicatorActivity.class));
+				break;
+			case R.id.tv_autoloopcircleindicatorviewpager:
+				startActivity(new Intent(this, SampleAutoLoopableCircleIndicatorActivity.class));
 				break;
 		}
 	}
