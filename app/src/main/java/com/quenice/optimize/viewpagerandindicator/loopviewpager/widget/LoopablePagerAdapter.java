@@ -1,5 +1,6 @@
 package com.quenice.optimize.viewpagerandindicator.loopviewpager.widget;
 
+import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -14,12 +15,14 @@ import java.util.List;
  * Created by qiubb on 2016/8/19.
  */
 public abstract class LoopablePagerAdapter<DATA> extends PagerAdapter implements ViewPager.OnPageChangeListener {
+	protected Context mContext;
 	protected List<DATA> mData;
 	private View[] views;
 	protected ViewPager mViewPager;
 	private boolean loopable;
 
-	public LoopablePagerAdapter(List<DATA> data) {
+	public LoopablePagerAdapter(Context context, List<DATA> data) {
+		this.mContext = context;
 		if (data == null) data = new ArrayList<>();
 		int len = data.size();
 		if (len <= 1) {
@@ -34,6 +37,30 @@ public abstract class LoopablePagerAdapter<DATA> extends PagerAdapter implements
 			views = new View[len + 2];
 			loopable = true;
 		}
+	}
+
+	/**
+	 * 重新加载数据
+	 *
+	 * @param data
+	 */
+	public void reLoadData(List<DATA> data) {
+		int len = 0;
+		if (data == null || (len = data.size()) <= 1) {
+			mData.clear();
+			views = new View[1];
+			loopable = false;
+			if (len == 1) mData.addAll(data);
+			notifyDataSetChanged();
+			return;
+		}
+		mData.clear();
+		mData.add(data.get(len - 1));
+		mData.addAll(data);
+		mData.add(data.get(0));
+		views = new View[len + 2];
+		loopable = true;
+		notifyDataSetChanged();
 	}
 
 	public void setViewPager(ViewPager viewPager) {

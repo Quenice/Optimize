@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.quenice.optimize.download.DownLoadActivity;
 import com.quenice.optimize.eventhandle.EventHandleActivity;
 import com.quenice.optimize.horizontalview.HorizontalViewActivity;
 import com.quenice.optimize.official.coordinatorlayout.BottomSheetBehaviorActivity;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private View tv_horizontalview;
 	private View tv_eventhandle;
 	private View tv_swipeviewandrefreshloadview;
+	private View tv_download;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		tv_horizontalview = findViewById(R.id.tv_horizontalview);
 		tv_eventhandle = findViewById(R.id.tv_eventhandle);
 		tv_swipeviewandrefreshloadview = findViewById(R.id.tv_swipeviewandrefreshloadview);
+		tv_download = findViewById(R.id.tv_download);
 
 		tv_floatingactionbutton.setOnClickListener(this);
 		tv_cityselect.setOnClickListener(this);
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		tv_horizontalview.setOnClickListener(this);
 		tv_eventhandle.setOnClickListener(this);
 		tv_swipeviewandrefreshloadview.setOnClickListener(this);
+		tv_download.setOnClickListener(this);
 	}
 
 	@Override
@@ -112,6 +116,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				break;
 			case R.id.tv_swipeviewandrefreshloadview:
 				startActivity(new Intent(this, SRLActivity.class));
+				break;
+			case R.id.tv_download:
+				startActivity(new Intent(this, DownLoadActivity.class));
 				break;
 		}
 	}

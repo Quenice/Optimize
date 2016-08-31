@@ -2,6 +2,7 @@
 <manifest package="com.quenice.optimize"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".Application"
         android:allowBackup="true"
@@ -63,11 +64,14 @@
             android:name=".swipeviewandrefreshloadview.SRLActivity"
             android:theme="@style/NoActionBar"/>
         <activity
-            android:name=".viewpagerandindicator.loopcircleindicator.demo.SampleLoopCircleIndicatorActivity"
+            android:name=".viewpagerandindicator.circleindicator.demo.SampleLoopCircleIndicatorActivity"
             android:theme="@style/NoActionBar"/>
         <activity
-            android:name=".viewpagerandindicator.loopcircleindicator.demo.SampleAutoLoopableCircleIndicatorActivity"
+            android:name=".viewpagerandindicator.circleindicator.demo.SampleAutoLoopableCircleIndicatorActivity"
             android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".download.DownLoadActivity"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

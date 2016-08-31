@@ -1,4 +1,4 @@
-package com.quenice.optimize.viewpagerandindicator.loopcircleindicator.widget;
+package com.quenice.optimize.viewpagerandindicator.circleindicator.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,6 +23,7 @@ public class LoopableCirclePagerIndicator extends View implements ViewPager.OnPa
 	private int mRadius;
 	private int mCircleColor;
 	private int mPointColor;
+	private int mCircleStorkColor;
 	//当前页
 	private int mCurrentPage;
 	private int mState;
@@ -35,9 +36,10 @@ public class LoopableCirclePagerIndicator extends View implements ViewPager.OnPa
 	private int mHeight;
 	private int mWidth;
 	//圆环paint
-	private Paint mCirclePaint;
+	private Paint mCircleStorkPaint;
 	//圆paint
 	private Paint mPointPaint;
+	private Paint mCirclePaint;
 
 	public LoopableCirclePagerIndicator(Context context) {
 		this(context, null);
@@ -58,12 +60,18 @@ public class LoopableCirclePagerIndicator extends View implements ViewPager.OnPa
 		mInterval = a.getDimensionPixelSize(R.styleable.LoopableCirclePagerIndicator_cpiInterval, 10);
 		mCircleColor = a.getColor(R.styleable.LoopableCirclePagerIndicator_cpiCircleColor, ContextCompat.getColor(context, android.R.color.white));
 		mPointColor = a.getColor(R.styleable.LoopableCirclePagerIndicator_cpiPointColor, ContextCompat.getColor(context, android.R.color.white));
+		mCircleStorkColor = a.getColor(R.styleable.LoopableCirclePagerIndicator_cpiCircleStorkColor, ContextCompat.getColor(context, android.R.color.transparent));
 		mCircleStorkWidth = a.getDimensionPixelSize(R.styleable.LoopableCirclePagerIndicator_cpiCircleStorkWidth, 4);
 		a.recycle();
+		mCircleStorkPaint = new Paint();
+		mCircleStorkPaint.setAntiAlias(true);
+		mCircleStorkPaint.setStyle(Paint.Style.STROKE);
+		mCircleStorkPaint.setStrokeWidth(mCircleStorkWidth);
+		mCircleStorkPaint.setColor(mCircleStorkColor);
+
 		mCirclePaint = new Paint();
 		mCirclePaint.setAntiAlias(true);
-		mCirclePaint.setStyle(Paint.Style.STROKE);
-		mCirclePaint.setStrokeWidth(mCircleStorkWidth);
+		mCirclePaint.setStyle(Paint.Style.FILL);
 		mCirclePaint.setColor(mCircleColor);
 
 		mPointPaint = new Paint();
@@ -83,11 +91,12 @@ public class LoopableCirclePagerIndicator extends View implements ViewPager.OnPa
 		float cy = mHeight / 2.0f;
 		for (int i = 0; i < mCount; i++) {
 			cx = left + (2 * i + 1) * mRadius + i * mInterval;
-			canvas.drawCircle(cx, cy, mRadius, mCirclePaint);
+			canvas.drawCircle(cx, cy, mRadius, mCircleStorkPaint);
+			canvas.drawCircle(cx, cy, mRadius - mCircleStorkWidth / 2.0f, mCirclePaint);
 		}
 
 		cx = left + (2 * mCurrentPage + 1) * mRadius + mCurrentPage * mInterval;
-		canvas.drawCircle(cx, cy, mRadius - mCircleStorkWidth / 2, mPointPaint);
+		canvas.drawCircle(cx, cy, mRadius - mCircleStorkWidth / 2.0f, mPointPaint);
 	}
 
 	@Override

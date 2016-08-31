@@ -8,8 +8,8 @@ import android.view.View;
 
 import com.quenice.optimize.R;
 import com.quenice.optimize.viewpagerandindicator.circleindicator.demo.CircleIndicatorActivity;
-import com.quenice.optimize.viewpagerandindicator.loopcircleindicator.demo.SampleAutoLoopableCircleIndicatorActivity;
-import com.quenice.optimize.viewpagerandindicator.loopcircleindicator.demo.SampleLoopCircleIndicatorActivity;
+import com.quenice.optimize.viewpagerandindicator.circleindicator.demo.SampleAutoLoopableCircleIndicatorActivity;
+import com.quenice.optimize.viewpagerandindicator.circleindicator.demo.SampleLoopCircleIndicatorActivity;
 import com.quenice.optimize.viewpagerandindicator.loopviewpager.SampleLoopViewPagerActivity;
 
 /**

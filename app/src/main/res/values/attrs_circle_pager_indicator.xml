@@ -3,11 +3,13 @@
     <attr name="cpiInterval" format="dimension"/>
     <attr name="cpiCircleStorkWidth" format="dimension"/>
     <attr name="cpiCircleColor" format="color"/>
+    <attr name="cpiCircleStorkColor" format="color"/>
     <attr name="cpiPointColor" format="color"/>
     <declare-styleable name="CirclePagerIndicator">
         <attr name="cpiRadius"/>
         <attr name="cpiInterval"/>
         <attr name="cpiCircleStorkWidth"/>
+        <attr name="cpiCircleStorkColor"/>
         <attr name="cpiCircleColor"/>
         <attr name="cpiPointColor"/>
     </declare-styleable>
@@ -15,6 +17,7 @@
         <attr name="cpiRadius"/>
         <attr name="cpiInterval"/>
         <attr name="cpiCircleStorkWidth"/>
+        <attr name="cpiCircleStorkColor"/>
         <attr name="cpiCircleColor"/>
         <attr name="cpiPointColor"/>
     </declare-styleable>

@@ -1,5 +1,6 @@
-package com.quenice.optimize.viewpagerandindicator.loopcircleindicator.demo;
+package com.quenice.optimize.viewpagerandindicator.circleindicator.demo;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.quenice.optimize.R;
-import com.quenice.optimize.viewpagerandindicator.loopcircleindicator.widget.LoopableCirclePagerIndicator;
+import com.quenice.optimize.viewpagerandindicator.circleindicator.widget.LoopableCirclePagerIndicator;
 import com.quenice.optimize.viewpagerandindicator.loopviewpager.widget.AutoLoopablePagerAdapter;
 import com.quenice.optimize.viewpagerandindicator.loopviewpager.widget.LoopableViewPager;
 
@@ -24,22 +25,35 @@ public class SampleAutoLoopableCircleIndicatorActivity extends AppCompatActivity
 	private MyAdapter mPagerAdapter;
 	private LoopableCirclePagerIndicator indicator;
 	private List<String> data;
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_autoloopable_circleindicator_activity);
 		data = Arrays.asList("1", "2", "3");
-		mViewPager = (LoopableViewPager)findViewById(R.id.viewPager);
-		indicator = (LoopableCirclePagerIndicator)findViewById(R.id.indicator);
-		mPagerAdapter = new MyAdapter(data);
+		mViewPager = (LoopableViewPager) findViewById(R.id.viewPager);
+		indicator = (LoopableCirclePagerIndicator) findViewById(R.id.indicator);
+		mPagerAdapter = new MyAdapter(this, data);
 		mViewPager.setAdapter(mPagerAdapter);
 		indicator.setupWithViewPager(mViewPager);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mPagerAdapter.startAutoLoop();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mPagerAdapter.stopAutoLoop();
+	}
+
 	static class MyAdapter extends AutoLoopablePagerAdapter<String> {
 
-		public MyAdapter(List<String> data) {
-			super(data);
+		public MyAdapter(Context context, List<String> data) {
+			super(context, data);
 		}
 
 		@Override
@@ -53,4 +67,3 @@ public class SampleAutoLoopableCircleIndicatorActivity extends AppCompatActivity
 		}
 	}
 }
-

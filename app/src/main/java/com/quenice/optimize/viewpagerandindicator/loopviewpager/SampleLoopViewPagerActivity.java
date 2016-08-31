@@ -26,7 +26,7 @@ public class SampleLoopViewPagerActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_loop_viewpager);
 		data = Arrays.asList("1", "2", "3", "4", "5");
 		mViewPager = (LoopableViewPager) findViewById(R.id.viewPager);
-		mViewPager.setAdapter(new SampleLoopablePagerAdapter<>(data));
+		mViewPager.setAdapter(new SampleLoopablePagerAdapter<>(this, data));
 
 		btn = findViewById(R.id.btn);
 		btn.setOnClickListener(new View.OnClickListener() {

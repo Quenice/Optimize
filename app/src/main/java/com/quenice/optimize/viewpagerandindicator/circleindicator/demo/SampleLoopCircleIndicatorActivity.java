@@ -1,11 +1,11 @@
-package com.quenice.optimize.viewpagerandindicator.loopcircleindicator.demo;
+package com.quenice.optimize.viewpagerandindicator.circleindicator.demo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.quenice.optimize.R;
-import com.quenice.optimize.viewpagerandindicator.loopcircleindicator.widget.LoopableCirclePagerIndicator;
+import com.quenice.optimize.viewpagerandindicator.circleindicator.widget.LoopableCirclePagerIndicator;
 import com.quenice.optimize.viewpagerandindicator.loopviewpager.widget.LoopableViewPager;
 
 import java.util.Arrays;
@@ -27,7 +27,7 @@ public class SampleLoopCircleIndicatorActivity extends AppCompatActivity {
 		data = Arrays.asList("1", "2");
 		mViewPager = (LoopableViewPager) findViewById(R.id.viewPager);
 		mIndicator = (LoopableCirclePagerIndicator) findViewById(R.id.indicator);
-		mViewPager.setAdapter(new SampleLoopableCirclePagerAdapter<>(data));
+		mViewPager.setAdapter(new SampleLoopableCirclePagerAdapter<>(this, data));
 		mIndicator.setupWithViewPager(mViewPager);
 	}
 }

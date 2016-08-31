@@ -47,7 +47,7 @@ public class CircleIndicatorActivity extends AppCompatActivity {
 
 		@Override
 		public int getCount() {
-			return 1;
+			return 3;
 		}
 
 		@Override

@@ -1,5 +1,6 @@
-package com.quenice.optimize.viewpagerandindicator.loopcircleindicator.demo;
+package com.quenice.optimize.viewpagerandindicator.circleindicator.demo;
 
+import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,8 @@ import java.util.List;
  * Created by qiubb on 2016/8/19.
  */
 public class SampleLoopableCirclePagerAdapter<DATA> extends LoopablePagerAdapter<DATA> {
-	public SampleLoopableCirclePagerAdapter(List<DATA> data) {
-		super(data);
+	public SampleLoopableCirclePagerAdapter(Context context, List<DATA> data) {
+		super(context, data);
 	}
 
 	@Override

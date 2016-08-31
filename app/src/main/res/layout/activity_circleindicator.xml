@@ -16,9 +16,10 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        app:cpiCircleColor="@color/colorAccent"
-        app:cpiCircleStorkWidth="2dp"
+        app:cpiCircleColor="@color/colorPrimary"
+        app:cpiCircleStorkColor="@color/colorAccent"
+        app:cpiCircleStorkWidth="6dp"
         app:cpiInterval="20dp"
         app:cpiPointColor="@android:color/white"
-        app:cpiRadius="10dp"/>
+        app:cpiRadius="12dp"/>
 </RelativeLayout>
