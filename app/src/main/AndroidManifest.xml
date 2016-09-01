@@ -72,6 +72,12 @@
         <activity
             android:name=".download.DownLoadActivity"
             android:theme="@style/AppTheme"/>
+
+        <receiver android:name=".download.DownloadReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

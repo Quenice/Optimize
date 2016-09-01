@@ -1,12 +1,9 @@
 package com.quenice.optimize.download;
 
-import android.app.DownloadManager;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.quenice.optimize.R;
@@ -33,31 +30,12 @@ public class DownLoadActivity extends AppCompatActivity implements View.OnClickL
 	}
 
 	private void download() {
-		DownloadManager dManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-		DownloadManager.Request req = new DownloadManager.Request(Uri.parse("http://www.insurobot.com/download/insurobot.apk"));
+		long id = DownloadHelper.getInstance(this).download("http://www.insurobot.com/download/insurobot.apk", "1.1.1");
+		Log.e("Activity", "id = " + id);
+	}
 
-		req.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
-		//req.setAllowedOverRoaming(false);
-
-		req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-
-		//设置文件的保存的位置[三种方式]
-		//第一种
-		//file:///storage/emulated/0/Android/data/your-package/files/Download/update.apk
-		req.setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS, "update.apk");
-		//第二种
-		//file:///storage/emulated/0/Download/update.apk
-		//req.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "update.apk");
-		//第三种 自定义文件路径
-		//req.setDestinationUri()
-
-
-		// 设置一些基本显示信息
-		req.setTitle("下载测试");
-		req.setDescription("正在下载");
-		req.setMimeType("application/vnd.android.package-archive");
-
-		//加入下载队列
-		dManager.enqueue(req);
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 	}
 }
