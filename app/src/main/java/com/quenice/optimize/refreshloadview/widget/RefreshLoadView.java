@@ -173,7 +173,7 @@ public class RefreshLoadView<DATA> extends SwipeRefreshLayout {
 		int totalItemCount = layoutManager.getItemCount();
 		//无数据
 		if (totalItemCount == 0) return false;
-		int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+		int lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition();
 		return totalItemCount <= (lastVisibleItem + invisibilityItemCountBeforeLoad);
 	}
 

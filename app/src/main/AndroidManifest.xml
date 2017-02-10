@@ -73,6 +73,30 @@
             android:name=".download.DownLoadActivity"
             android:theme="@style/AppTheme"/>
 
+        <activity
+            android:name=".netframe.NetFrameMainActivity"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".netframe.okhttp.OkHttpActivity"
+            android:theme="@style/NoActionBar"/>
+
+        <activity
+            android:name=".netframe.retrofit.RetrofitActivity"
+            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".webview.WebViewActivity"
+            android:theme="@style/NoActionBar"/>
+
+        <activity
+            android:name=".actionbar.ActionBarActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+
+        <activity
+            android:name=".toolbar.ToolBarActivity"/>
+
         <receiver android:name=".download.DownloadReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>

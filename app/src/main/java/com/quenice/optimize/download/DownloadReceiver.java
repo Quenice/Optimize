@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * https://github.com/chiclaim/android-app-update
@@ -16,10 +15,10 @@ public class DownloadReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		Log.e("Download", "....");
 		if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
-			Toast.makeText(context, "下载成功", Toast.LENGTH_LONG).show();
-			long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, DownloadHelper.INVALID_DOWNLOAD_ID);
-			if(downloadId == DownloadHelper.INVALID_DOWNLOAD_ID) return;
-//			DownloadHelper.getInstance(context).
+			long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, ApkUpdateHelper.INVALID_DOWNLOAD_ID);
+			if(downloadId == ApkUpdateHelper.INVALID_DOWNLOAD_ID) return;
+			ApkUpdateHelper.getInstance(context).getState(downloadId);
+//			ApkUpdateHelper.getInstance(context).
 		}
 	}
 }

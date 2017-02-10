@@ -3,7 +3,6 @@ package com.quenice.optimize.download;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import com.quenice.optimize.R;
@@ -30,8 +29,9 @@ public class DownLoadActivity extends AppCompatActivity implements View.OnClickL
 	}
 
 	private void download() {
-		long id = DownloadHelper.getInstance(this).download("http://www.insurobot.com/download/insurobot.apk", "1.1.1");
-		Log.e("Activity", "id = " + id);
+//		long id = ApkUpdateHelper.getInstance(this).download("http://www.insurobot.com/download/insurobot.apk", "1.1.1");
+//		Log.e("Activity", "id = " + id);
+		ApkUpdateHelper.getInstance(this).getState(16);
 	}
 
 	@Override
